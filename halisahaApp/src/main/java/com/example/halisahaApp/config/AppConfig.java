@@ -15,12 +15,12 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // For authorization to login and signup phase
+    // For authorization to signup phase
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api/signup").permitAll()
+                        .requestMatchers("/api/auth/signup", "api/auth/verify").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }

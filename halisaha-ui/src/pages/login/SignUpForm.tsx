@@ -15,7 +15,7 @@ const SignUpForm = () => {
             email,
             password
         };
-        Rest.post("login", request)
+        Rest.post("auth/signup", request)
             .then(() => console.log("Success"))
             .catch(() => console.log("Cannot success"));
     }

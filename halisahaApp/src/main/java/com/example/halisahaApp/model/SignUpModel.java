@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class LoginModel {
+public class SignUpModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,4 +18,5 @@ public class LoginModel {
     private String password;
     private String email;
     private boolean isVerified;
+    private String token;
 }
