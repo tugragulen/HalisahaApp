@@ -4,10 +4,12 @@ import TextFieldView from "../../component/TextFieldView";
 import FormBoxView from "../../component/FormBoxView";
 import {Rest} from "../../api/Rest";
 import {LoginModel} from "../../model/LoginModel";
+import {useNavigate} from "react-router-dom";
 
 const LoginForm = () => {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
+    const navigate = useNavigate();
 
     const onLogin = () => {
         if (isFormValid()) {
@@ -17,8 +19,8 @@ const LoginForm = () => {
             };
             Rest.post("auth/login", request)
                 .then((response) => {
-                    console.log("Success");
                     localStorage.setItem("token", response.data);
+                    navigate("/main")
                 })
                 .catch(() => console.log("Cannot success"));
         }

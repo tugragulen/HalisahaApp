@@ -1,7 +1,9 @@
 import React from 'react';
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from "./pages/login/Login";
 import {ToastContainer} from "react-toastify";
+import MainPanel from "./pages/layout/MainPanel";
+
 function App() {
     return (
         <div>
@@ -9,6 +11,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path={"/"} element={<Login/>}/>
+                    <Route path={"/main"} element={<MainPanel/>}/>
                 </Routes>
             </Router>
         </div>
