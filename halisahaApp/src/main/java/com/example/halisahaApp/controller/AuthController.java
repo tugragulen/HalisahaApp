@@ -1,5 +1,6 @@
 package com.example.halisahaApp.controller;
 
+import com.example.halisahaApp.model.LoginModel;
 import com.example.halisahaApp.model.SignUpModel;
 import com.example.halisahaApp.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class AuthController {
             return ResponseEntity.ok("Email verified");
         }
         return ResponseEntity.badRequest().body("Invalid token");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginModel loginModel) {
+        return ResponseEntity.ok(authService.login(loginModel));
     }
 
 }

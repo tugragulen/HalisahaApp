@@ -1,8 +1,10 @@
 package com.example.halisahaApp.service;
 
+import com.example.halisahaApp.model.LoginModel;
 import com.example.halisahaApp.model.MailModel;
 import com.example.halisahaApp.model.SignUpModel;
 import com.example.halisahaApp.repository.SignUpRepository;
+import com.example.halisahaApp.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,5 +44,21 @@ public class AuthService {
         String link = "http://localhost:8080/api/auth/verify?token=" + signUpModel.getToken();
         mail.setText("Merhaba, hesabınızı doğrulamak için linke tıklayınız, " + link);
         return mail;
+    }
+
+    public String login(LoginModel loginModel) {
+        SignUpModel userRecord = signUpRepository.findByUsername(loginModel.getUsername())
+                .orElseThrow(() -> new UnsupportedOperationException("User not found with username: " + loginModel.getUsername()));
+        if (!userRecord.isVerified()) {
+            throw new UnsupportedOperationException("User is not verified");
+        }
+        if (!checkPassword(userRecord, loginModel.getPassword())) {
+            throw new UnsupportedOperationException("Wrong password");
+        }
+        return JWTUtil.generateToken(loginModel.getUsername());
+    }
+
+    private boolean checkPassword(SignUpModel userRecord, String password) {
+        return passwordEncoder.matches(password, userRecord.getPassword());
     }
 }
