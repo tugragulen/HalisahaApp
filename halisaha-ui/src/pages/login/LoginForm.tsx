@@ -3,23 +3,31 @@ import {Box, Button, Typography} from "@mui/material";
 import TextFieldView from "../../component/TextFieldView";
 import FormBoxView from "../../component/FormBoxView";
 import {Rest} from "../../api/Rest";
+import {LoginModel} from "../../model/LoginModel";
 
 const LoginForm = () => {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
 
     const onLogin = () => {
-        const request = {
-            username,
-            password
-        };
-        Rest.post("auth/login", request)
-            .then((response) => {
-                console.log("Success");
-                localStorage.setItem("token", response.data);
-            })
-            .catch(() => console.log("Cannot success"));
+        if (isFormValid()) {
+            const request: LoginModel = {
+                username: username!,
+                password: password!
+            };
+            Rest.post("auth/login", request)
+                .then((response) => {
+                    console.log("Success");
+                    localStorage.setItem("token", response.data);
+                })
+                .catch(() => console.log("Cannot success"));
+        }
     }
+
+    const isFormValid = () => {
+        return username && password;
+    }
+
     return (
         <FormBoxView>
             <Box>
@@ -40,7 +48,9 @@ const LoginForm = () => {
                                onChange={(e) => setPassword(e.target.value)}
                 />
             </Box>
-            <Button variant={"outlined"} fullWidth onClick={onLogin}>Giriş</Button>
+            <Button variant={"outlined"} fullWidth onClick={onLogin} disabled={!isFormValid()}>
+                Giriş
+            </Button>
         </FormBoxView>
     );
 };
