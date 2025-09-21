@@ -5,6 +5,7 @@ import FormBoxView from "../../component/FormBoxView";
 import {Rest} from "../../api/Rest";
 import {LoginModel} from "../../model/LoginModel";
 import {useNavigate} from "react-router-dom";
+import {Toast} from "../../util/Toast";
 
 const LoginForm = () => {
     const [username, setUsername] = useState<string>();
@@ -22,7 +23,7 @@ const LoginForm = () => {
                     localStorage.setItem("token", response.data);
                     navigate("/main")
                 })
-                .catch(() => console.log("Cannot success"));
+                .catch(() => Toast.error("Cannot login"));
         }
     }
 
