@@ -3,6 +3,8 @@ package com.example.halisahaApp.service;
 import com.example.halisahaApp.model.LoginModel;
 import com.example.halisahaApp.model.MailModel;
 import com.example.halisahaApp.model.SignUpModel;
+import com.example.halisahaApp.model.UserModel;
+import com.example.halisahaApp.model.enums.RoleEnum;
 import com.example.halisahaApp.repository.SignUpRepository;
 import com.example.halisahaApp.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class AuthService {
         String encodedPassword = passwordEncoder.encode(password);
         signUpModel.setPassword(encodedPassword);
         signUpModel.setToken(UUID.randomUUID().toString());
+        signUpModel.setUser(createUser());
         signUpRepository.save(signUpModel);
         mailService.sendMail(createMail(signUpModel));
     }
@@ -60,5 +63,11 @@ public class AuthService {
 
     private boolean checkPassword(SignUpModel userRecord, String password) {
         return passwordEncoder.matches(password, userRecord.getPassword());
+    }
+
+    private UserModel createUser() {
+        UserModel user = new UserModel();
+        user.setRole(RoleEnum.ROLE_USER);
+        return user;
     }
 }

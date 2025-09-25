@@ -1,9 +1,6 @@
 package com.example.halisahaApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,4 +16,14 @@ public class SignUpModel {
     private String email;
     private boolean isVerified;
     private String token;
+
+    @OneToOne(mappedBy = "signUpModel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserModel user;
+
+    public void setUser(UserModel user) {
+        this.user = user;
+        if (user != null) {
+            user.setSignUpModel(this);
+        }
+    }
 }
