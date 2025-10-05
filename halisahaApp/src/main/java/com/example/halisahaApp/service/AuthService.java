@@ -6,6 +6,7 @@ import com.example.halisahaApp.model.SignUpModel;
 import com.example.halisahaApp.model.UserModel;
 import com.example.halisahaApp.model.enums.RoleEnum;
 import com.example.halisahaApp.repository.SignUpRepository;
+import com.example.halisahaApp.response.LoginResponse;
 import com.example.halisahaApp.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,7 +50,7 @@ public class AuthService {
         return mail;
     }
 
-    public String login(LoginModel loginModel) {
+    public LoginResponse login(LoginModel loginModel) {
         SignUpModel userRecord = signUpRepository.findByUsername(loginModel.getUsername())
                 .orElseThrow(() -> new UnsupportedOperationException("User not found with username: " + loginModel.getUsername()));
         if (!userRecord.isVerified()) {
@@ -58,7 +59,15 @@ public class AuthService {
         if (!checkPassword(userRecord, loginModel.getPassword())) {
             throw new UnsupportedOperationException("Wrong password");
         }
-        return JWTUtil.generateToken(loginModel.getUsername());
+        String token = JWTUtil.generateToken(loginModel.getUsername());
+        return LoginResponse.builder()
+                .id(userRecord.getId())
+                .username(userRecord.getUsername())
+                .token(token)
+                .role(userRecord.getUser().getRole())
+                .xPosition(userRecord.getUser().getXPosition())
+                .yPosition(userRecord.getUser().getYPosition())
+                .build();
     }
 
     private boolean checkPassword(SignUpModel userRecord, String password) {

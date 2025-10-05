@@ -2,8 +2,8 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from "./pages/login/Login";
 import {ToastContainer} from "react-toastify";
-import MainPanel from "./pages/layout/MainPanel";
 import PrivateRoute from "./component/PrivateRoute";
+import DashboardView from "./pages/layout/DashboardView";
 
 function App() {
     return (
@@ -17,7 +17,7 @@ function App() {
                     <Route path={"/"}
                            element={
                                <PrivateRoute>
-                                   <MainPanel/>
+                                   <DashboardView/>
                                </PrivateRoute>
                            }
                     />

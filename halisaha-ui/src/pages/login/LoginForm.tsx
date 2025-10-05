@@ -6,11 +6,15 @@ import {Rest} from "../../api/Rest";
 import {LoginModel} from "../../model/LoginModel";
 import {useNavigate} from "react-router-dom";
 import {Toast} from "../../util/Toast";
+import {useDispatch} from "react-redux";
+import {setUser} from "../../store/slices/UserSlice";
 
 const LoginForm = () => {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const onLogin = () => {
         if (isFormValid()) {
@@ -20,7 +24,8 @@ const LoginForm = () => {
             };
             Rest.post("auth/login", request)
                 .then((response) => {
-                    localStorage.setItem("token", response.data);
+                    localStorage.setItem("token", response.data.token);
+                    dispatch(setUser(response.data))
                     navigate("/")
                 })
                 .catch(() => Toast.error("Cannot login"));
