@@ -11,8 +11,10 @@ function App() {
             <ToastContainer position={"bottom-left"} autoClose={5000} theme={"dark"}/>
             <Router>
                 <Routes>
-                    <Route path={"/"} element={<Login/>}/>
-                    <Route path={"/main"}
+                    <Route path={"/auth"} element={
+                        <Login/>
+                    }/>
+                    <Route path={"/"}
                            element={
                                <PrivateRoute>
                                    <MainPanel/>

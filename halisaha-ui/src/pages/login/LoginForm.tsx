@@ -21,7 +21,7 @@ const LoginForm = () => {
             Rest.post("auth/login", request)
                 .then((response) => {
                     localStorage.setItem("token", response.data);
-                    navigate("/main")
+                    navigate("/")
                 })
                 .catch(() => Toast.error("Cannot login"));
         }
