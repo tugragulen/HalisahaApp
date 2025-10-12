@@ -4,6 +4,7 @@ import Login from "./pages/login/Login";
 import {ToastContainer} from "react-toastify";
 import PrivateRoute from "./component/PrivateRoute";
 import DashboardView from "./pages/layout/DashboardView";
+import CreateMatch from "./pages/match/CreateMatch";
 
 function App() {
     return (
@@ -18,6 +19,13 @@ function App() {
                            element={
                                <PrivateRoute>
                                    <DashboardView/>
+                               </PrivateRoute>
+                           }
+                    />
+                    <Route path={"/match/create"}
+                           element={
+                               <PrivateRoute>
+                                   <CreateMatch/>
                                </PrivateRoute>
                            }
                     />

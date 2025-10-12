@@ -16,6 +16,8 @@ import java.util.Optional;
 public class AuthController {
     private final AuthService authService;
 
+
+
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody SignUpModel signUpModel) {
         authService.signUp(signUpModel);
