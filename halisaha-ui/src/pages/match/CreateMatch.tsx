@@ -2,30 +2,30 @@ import React, {useState} from 'react';
 import {
     Box,
     Button,
-    TextField,
-    Typography,
-    Paper,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Radio,
-    RadioGroup,
-    FormControlLabel,
-    FormLabel,
-    Chip,
-    IconButton,
     Card,
     CardContent,
-    Divider
+    Chip,
+    Divider,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Radio,
+    RadioGroup,
+    Select,
+    TextField,
+    Typography
 } from "@mui/material";
-import {Add, Delete, PersonAdd, ArrowBack, Sports, EmojiEvents} from "@mui/icons-material";
+import {ArrowBack, Delete, EmojiEvents, PersonAdd, Sports} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {CreateMatchModel, PlayerModel, PositionModel} from "../../model/MatchModel";
 
 const CreateMatch = () => {
     const navigate = useNavigate();
-    
+
     // Maç bilgileri
     const [matchData, setMatchData] = useState<CreateMatchModel>({
         title: '',
@@ -49,18 +49,18 @@ const CreateMatch = () => {
         {id: 'a-def1', x: 25, y: 30, label: 'DF', player: undefined},
         {id: 'a-def2', x: 25, y: 70, label: 'DF', player: undefined},
         {id: 'a-mid1', x: 40, y: 25, label: 'OC', player: undefined},
-        {id: 'a-mid2', x: 40, y: 50, label: 'OC', player: undefined},
+        {id: 'a-mid2', x: 35, y: 50, label: 'OC', player: undefined},
         {id: 'a-mid3', x: 40, y: 75, label: 'OC', player: undefined},
-        {id: 'a-fwd', x: 55, y: 50, label: 'FW', player: undefined},
-        
+        {id: 'a-fwd', x: 45, y: 50, label: 'FW', player: undefined},
+
         // B Takımı pozisyonları (sağ taraf)
         {id: 'b-gk', x: 90, y: 50, label: 'KL', player: undefined},
         {id: 'b-def1', x: 75, y: 30, label: 'DF', player: undefined},
         {id: 'b-def2', x: 75, y: 70, label: 'DF', player: undefined},
         {id: 'b-mid1', x: 60, y: 25, label: 'OC', player: undefined},
-        {id: 'b-mid2', x: 60, y: 50, label: 'OC', player: undefined},
+        {id: 'b-mid2', x: 65, y: 50, label: 'OC', player: undefined},
         {id: 'b-mid3', x: 60, y: 75, label: 'OC', player: undefined},
-        {id: 'b-fwd', x: 45, y: 50, label: 'FW', player: undefined},
+        {id: 'b-fwd', x: 55, y: 50, label: 'FW', player: undefined},
     ]);
 
     // Oyuncu ekleme
@@ -80,31 +80,31 @@ const CreateMatch = () => {
     const handleRemovePlayer = (playerId: string) => {
         setPlayers(players.filter(p => p.id !== playerId));
         // Sahadan da kaldır
-        setFieldPositions(fieldPositions.map(pos => 
+        setFieldPositions(fieldPositions.map(pos =>
             pos.player?.id === playerId ? {...pos, player: undefined} : pos
         ));
     };
 
     // Kaleci işaretleme
     const toggleGoalkeeper = (playerId: string) => {
-        setPlayers(players.map(p => 
+        setPlayers(players.map(p =>
             p.id === playerId ? {...p, isGoalkeeper: !p.isGoalkeeper} : p
         ));
-        setFieldPositions(fieldPositions.map(pos => 
-            pos.player?.id === playerId 
-                ? {...pos, player: {...pos.player, isGoalkeeper: !pos.player.isGoalkeeper}} 
+        setFieldPositions(fieldPositions.map(pos =>
+            pos.player?.id === playerId
+                ? {...pos, player: {...pos.player, isGoalkeeper: !pos.player.isGoalkeeper}}
                 : pos
         ));
     };
 
     // Kaptan işaretleme
     const toggleCaptain = (playerId: string) => {
-        setPlayers(players.map(p => 
+        setPlayers(players.map(p =>
             p.id === playerId ? {...p, isCaptain: !p.isCaptain} : p
         ));
-        setFieldPositions(fieldPositions.map(pos => 
-            pos.player?.id === playerId 
-                ? {...pos, player: {...pos.player, isCaptain: !pos.player.isCaptain}} 
+        setFieldPositions(fieldPositions.map(pos =>
+            pos.player?.id === playerId
+                ? {...pos, player: {...pos.player, isCaptain: !pos.player.isCaptain}}
                 : pos
         ));
     };
@@ -133,10 +133,10 @@ const CreateMatch = () => {
                     }
                     return pos;
                 }));
-                
+
                 // Oyuncuyu takıma ata
                 const team = positionId.startsWith('a-') ? 'A' : 'B';
-                setPlayers(players.map(p => 
+                setPlayers(players.map(p =>
                     p.id === draggedPlayer.id ? {...p, team: team as any} : p
                 ));
             }
@@ -147,11 +147,11 @@ const CreateMatch = () => {
     const handleDropOnReserve = () => {
         if (draggedPlayer) {
             // Sahadan kaldır
-            setFieldPositions(fieldPositions.map(pos => 
+            setFieldPositions(fieldPositions.map(pos =>
                 pos.player?.id === draggedPlayer.id ? {...pos, player: undefined} : pos
             ));
             // Yedeklere al
-            setPlayers(players.map(p => 
+            setPlayers(players.map(p =>
                 p.id === draggedPlayer.id ? {...p, team: 'RESERVE'} : p
             ));
             setDraggedPlayer(null);
@@ -258,8 +258,8 @@ const CreateMatch = () => {
                     </Paper>
 
                     {/* Yedek Oyuncular */}
-                    <Paper 
-                        elevation={3} 
+                    <Paper
+                        elevation={3}
                         sx={{p: 3}}
                         onDragOver={handleDragOver}
                         onDrop={handleDropOnReserve}
@@ -270,7 +270,7 @@ const CreateMatch = () => {
                         <Divider sx={{mb: 2}}/>
                         <Box display="flex" flexDirection="column" gap={1}>
                             {reservePlayers.map(player => (
-                                <Card 
+                                <Card
                                     key={player.id}
                                     draggable
                                     onDragStart={() => handleDragStart(player)}
@@ -280,7 +280,13 @@ const CreateMatch = () => {
                                         bgcolor: 'grey.100'
                                     }}
                                 >
-                                    <CardContent sx={{py: 1, px: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <CardContent sx={{
+                                        py: 1,
+                                        px: 2,
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
                                         <Typography>{player.name}</Typography>
                                         <IconButton size="small" onClick={() => handleRemovePlayer(player.id)}>
                                             <Delete fontSize="small"/>
@@ -303,9 +309,9 @@ const CreateMatch = () => {
                         <Typography variant="h6" gutterBottom>
                             Saha Düzeni (7v7)
                         </Typography>
-                        
+
                         {/* Saha */}
-                        <Box 
+                        <Box
                             sx={{
                                 position: 'relative',
                                 width: '100%',
@@ -326,7 +332,7 @@ const CreateMatch = () => {
                                 width: '2px',
                                 bgcolor: 'white'
                             }}/>
-                            
+
                             {/* Orta daire */}
                             <Box sx={{
                                 position: 'absolute',
@@ -426,8 +432,8 @@ const CreateMatch = () => {
                         <Box mt={3}>
                             <Box display="flex" justifyContent="space-around" mb={2}>
                                 <Box textAlign="center">
-                                    <Chip 
-                                        label={`A Takımı (${teamAPlayers.length}/7)`} 
+                                    <Chip
+                                        label={`A Takımı (${teamAPlayers.length}/7)`}
                                         color="primary"
                                         sx={{fontWeight: 'bold', mb: 1}}
                                     />
@@ -435,16 +441,16 @@ const CreateMatch = () => {
                                         {teamAPlayers.map(player => (
                                             <Box key={player.id} display="flex" alignItems="center" gap={1}>
                                                 <Typography variant="caption">{player.name}</Typography>
-                                                <IconButton 
-                                                    size="small" 
+                                                <IconButton
+                                                    size="small"
                                                     onClick={() => toggleGoalkeeper(player.id)}
                                                     color={player.isGoalkeeper ? "warning" : "default"}
                                                     title="Kaleci"
                                                 >
                                                     <Sports fontSize="small"/>
                                                 </IconButton>
-                                                <IconButton 
-                                                    size="small" 
+                                                <IconButton
+                                                    size="small"
                                                     onClick={() => toggleCaptain(player.id)}
                                                     color={player.isCaptain ? "warning" : "default"}
                                                     title="Kaptan"
@@ -456,8 +462,8 @@ const CreateMatch = () => {
                                     </Box>
                                 </Box>
                                 <Box textAlign="center">
-                                    <Chip 
-                                        label={`B Takımı (${teamBPlayers.length}/7)`} 
+                                    <Chip
+                                        label={`B Takımı (${teamBPlayers.length}/7)`}
                                         color="error"
                                         sx={{fontWeight: 'bold', mb: 1}}
                                     />
@@ -465,16 +471,16 @@ const CreateMatch = () => {
                                         {teamBPlayers.map(player => (
                                             <Box key={player.id} display="flex" alignItems="center" gap={1}>
                                                 <Typography variant="caption">{player.name}</Typography>
-                                                <IconButton 
-                                                    size="small" 
+                                                <IconButton
+                                                    size="small"
                                                     onClick={() => toggleGoalkeeper(player.id)}
                                                     color={player.isGoalkeeper ? "warning" : "default"}
                                                     title="Kaleci"
                                                 >
                                                     <Sports fontSize="small"/>
                                                 </IconButton>
-                                                <IconButton 
-                                                    size="small" 
+                                                <IconButton
+                                                    size="small"
                                                     onClick={() => toggleCaptain(player.id)}
                                                     color={player.isCaptain ? "warning" : "default"}
                                                     title="Kaptan"
@@ -486,15 +492,16 @@ const CreateMatch = () => {
                                     </Box>
                                 </Box>
                             </Box>
-                            <Typography variant="caption" color="text.secondary" textAlign="center" display="block" mt={2}>
+                            <Typography variant="caption" color="text.secondary" textAlign="center" display="block"
+                                        mt={2}>
                                 💡 Kaleci ve kaptan işaretlemek için takım listesindeki butonları kullanın
                             </Typography>
                         </Box>
 
                         {/* Kaydet Butonu */}
                         <Box display="flex" justifyContent="center" mt={3}>
-                            <Button 
-                                variant="contained" 
+                            <Button
+                                variant="contained"
                                 size="large"
                                 color="success"
                                 sx={{px: 6}}
