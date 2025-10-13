@@ -3,7 +3,7 @@ package com.example.halisahaApp.service;
 import com.example.halisahaApp.model.LoginModel;
 import com.example.halisahaApp.model.MailModel;
 import com.example.halisahaApp.model.SignUpModel;
-import com.example.halisahaApp.model.UserModel;
+import com.example.halisahaApp.model.User;
 import com.example.halisahaApp.model.enums.RoleEnum;
 import com.example.halisahaApp.repository.SignUpRepository;
 import com.example.halisahaApp.response.LoginResponse;
@@ -74,8 +74,8 @@ public class AuthService {
         return passwordEncoder.matches(password, userRecord.getPassword());
     }
 
-    private UserModel createUser() {
-        UserModel user = new UserModel();
+    private User createUser() {
+        User user = new User();
         user.setRole(RoleEnum.ROLE_USER);
         return user;
     }

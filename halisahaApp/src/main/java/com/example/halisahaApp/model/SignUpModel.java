@@ -18,9 +18,9 @@ public class SignUpModel {
     private String token;
 
     @OneToOne(mappedBy = "signUpModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserModel user;
+    private User user;
 
-    public void setUser(UserModel user) {
+    public void setUser(User user) {
         this.user = user;
         if (user != null) {
             user.setSignUpModel(this);

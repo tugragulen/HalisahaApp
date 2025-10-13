@@ -2,12 +2,14 @@ package com.example.halisahaApp.model;
 
 import com.example.halisahaApp.model.enums.RoleEnum;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
-public class UserModel {
+public class User {
     @Id
     private Long id;
     @Enumerated(EnumType.STRING)
@@ -19,4 +21,9 @@ public class UserModel {
     @MapsId
     @JoinColumn(name = "id")
     private SignUpModel signUpModel;
+
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match match;
+
 }

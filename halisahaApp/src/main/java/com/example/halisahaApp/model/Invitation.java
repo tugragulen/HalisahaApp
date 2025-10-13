@@ -1,11 +1,12 @@
 package com.example.halisahaApp.model;
 
+import com.example.halisahaApp.model.enums.InvitationStatus;
+import jakarta.persistence.*;
+
 public class Invitation {
 
-    /*
-
-      @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "match_id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "match_id")
     private Match match;
 
 
@@ -17,6 +18,4 @@ public class Invitation {
     @JoinColumn(name = "invited_by")
     private User invitedBy;
 
-
-     */
 }

@@ -1,7 +1,7 @@
 package com.example.halisahaApp.init;
 
 import com.example.halisahaApp.model.SignUpModel;
-import com.example.halisahaApp.model.UserModel;
+import com.example.halisahaApp.model.User;
 import com.example.halisahaApp.model.enums.RoleEnum;
 import com.example.halisahaApp.repository.SignUpRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class AdminDataLoader implements CommandLineRunner {
             admin.setEmail("admin@halisaha.com");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setVerified(true);
-            UserModel adminUser = new UserModel();
+            User adminUser = new User();
             adminUser.setRole(RoleEnum.ROLE_ADMIN);
             admin.setUser(adminUser);
             signUpRepository.save(admin);
