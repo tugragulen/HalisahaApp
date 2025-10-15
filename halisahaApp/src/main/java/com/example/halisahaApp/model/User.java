@@ -26,4 +26,7 @@ public class User {
 
     @OneToMany
     private List<Participant> matches;
+
+    @OneToMany
+    private List<MatchAdmin> adminMatches;
 }

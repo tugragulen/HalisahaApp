@@ -32,4 +32,7 @@ public class Match {
 
     @OneToMany
     private List<Participant> players;
+
+    @OneToMany
+    private List<MatchAdmin> admins;
 }
