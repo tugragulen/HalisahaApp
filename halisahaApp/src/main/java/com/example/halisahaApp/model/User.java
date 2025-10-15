@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -22,8 +24,6 @@ public class User {
     @JoinColumn(name = "id")
     private SignUpModel signUpModel;
 
-    @ManyToOne
-    @JoinColumn(name = "match_id")
-    private Match match;
-
+    @OneToMany
+    private List<Participant> matches;
 }

@@ -31,5 +31,5 @@ public class Match {
     private MatchVisibility visibility;
 
     @OneToMany
-    private List<User> players;
+    private List<Participant> players;
 }

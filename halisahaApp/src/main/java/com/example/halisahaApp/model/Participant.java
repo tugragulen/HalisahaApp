@@ -1,10 +1,15 @@
 package com.example.halisahaApp.model;
 
-public class Participant {
+import com.example.halisahaApp.model.enums.JoinStatus;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-    /*
-
-      @ManyToOne(optional = false, fetch = FetchType.LAZY)
+@Entity
+@Getter
+@Setter
+public class Participant extends BaseEntity {
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "match_id", nullable = false)
     private Match match;
 
@@ -15,6 +20,4 @@ public class Participant {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private JoinStatus joinStatus = JoinStatus.CONFIRMED;
-
-     */
 }
