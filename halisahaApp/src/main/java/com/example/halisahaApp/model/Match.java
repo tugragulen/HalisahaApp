@@ -35,4 +35,9 @@ public class Match {
 
     @OneToMany
     private List<MatchAdmin> admins;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User matchOwner;
+
 }
