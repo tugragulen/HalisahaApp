@@ -21,4 +21,8 @@ public class UserService {
         model.getOwneredMatches().add(match);
         repository.save(model);
     }
+
+    public Optional<User> findById(Long id) {
+        return repository.findById(id);
+    }
 }
