@@ -17,7 +17,7 @@ public class MatchService {
         Match matchEntity = MatchMapper.INSTANCE.toEntity(request);
         userService.findByUsername(request.getOwnerUsername())
                 .ifPresent(entity -> {
-                    matchEntity.setMatchOwner(entity.getUser());
+                    matchEntity.setMatchOwner(entity);
                     userService.ownMatch(entity, matchEntity);
                 });
         matchRepository.save(matchEntity);

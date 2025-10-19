@@ -12,18 +12,23 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
-public class User {
-    @Id
-    private Long id;
+public class User extends BaseEntity {
+    private String username;
+    private String password;
+    private String email;
+    @Column(name = "is_verified")
+    private boolean isVerified;
+
+    @Column(name = "verification_token")
+    private String verificationToken;
+
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
+    @Column(name = "x_position")
     private double xPosition;
-    private double yPosition;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private SignUpModel signUpModel;
+    @Column(name = "y_position")
+    private double yPosition;
 
     @OneToMany
     private List<Participant> matches = new ArrayList<>();

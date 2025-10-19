@@ -1,8 +1,8 @@
 package com.example.halisahaApp.service;
 
 import com.example.halisahaApp.model.Match;
-import com.example.halisahaApp.model.SignUpModel;
-import com.example.halisahaApp.repository.SignUpRepository;
+import com.example.halisahaApp.model.User;
+import com.example.halisahaApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +11,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final SignUpRepository repository;
+    private final UserRepository repository;
 
-    public Optional<SignUpModel> findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         return repository.findByUsername(username);
     }
 
-    public void ownMatch(SignUpModel model, Match match) {
-        model.getUser().getOwneredMatches().add(match);
+    public void ownMatch(User model, Match match) {
+        model.getOwneredMatches().add(match);
         repository.save(model);
     }
 }

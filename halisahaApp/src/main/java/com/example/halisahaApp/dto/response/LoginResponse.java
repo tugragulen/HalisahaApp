@@ -1,4 +1,4 @@
-package com.example.halisahaApp.response;
+package com.example.halisahaApp.dto.response;
 
 import com.example.halisahaApp.model.enums.RoleEnum;
 import lombok.Builder;
