@@ -9,13 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "t_users")
 @Getter
 @Setter
 public class User extends BaseEntity {
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String email;
+
     @Column(name = "is_verified")
     private boolean isVerified;
 
@@ -23,17 +29,19 @@ public class User extends BaseEntity {
     private String verificationToken;
 
     @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    @Column(nullable = false)
+    private RoleEnum role = RoleEnum.ROLE_USER;
+
     @Column(name = "x_position")
     private double xPosition;
 
     @Column(name = "y_position")
     private double yPosition;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Participant> matches = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<MatchAdmin> adminMatches = new ArrayList<>();
 
     @OneToMany

@@ -4,7 +4,7 @@ import com.example.halisahaApp.dto.request.LoginRequest;
 import com.example.halisahaApp.dto.request.RegisterRequest;
 import com.example.halisahaApp.dto.response.LoginResponse;
 import com.example.halisahaApp.mapper.UserMapper;
-import com.example.halisahaApp.model.MailModel;
+import com.example.halisahaApp.dto.MailDto;
 import com.example.halisahaApp.model.User;
 import com.example.halisahaApp.repository.UserRepository;
 import com.example.halisahaApp.util.JWTUtil;
@@ -41,8 +41,8 @@ public class AuthService {
                 });
     }
 
-    private MailModel createMail(User entity) {
-        MailModel mail = new MailModel();
+    private MailDto createMail(User entity) {
+        MailDto mail = new MailDto();
         mail.setTo(entity.getEmail());
         mail.setSubject("Halisaha App Doğrulama");
         String link = "http://localhost:8080/api/auth/verify?token=" + entity.getVerificationToken();

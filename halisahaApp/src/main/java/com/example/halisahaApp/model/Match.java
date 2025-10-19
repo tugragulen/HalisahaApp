@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "t_matches")
 @Getter
 @Setter
 public class Match {
@@ -30,10 +31,10 @@ public class Match {
     @Enumerated(EnumType.STRING)
     private MatchVisibility visibility;
 
-    @OneToMany
+    @OneToMany(mappedBy = "match")
     private List<Participant> players;
 
-    @OneToMany
+    @OneToMany(mappedBy = "match")
     private List<MatchAdmin> admins;
 
     @ManyToOne
