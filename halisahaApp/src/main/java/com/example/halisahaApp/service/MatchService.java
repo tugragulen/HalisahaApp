@@ -15,11 +15,12 @@ public class MatchService {
 
     public void createMatch(CreateMatchRequest request) {
         Match matchEntity = MatchMapper.INSTANCE.toEntity(request);
+        matchRepository.save(matchEntity);
+
         userService.findByUsername(request.getOwnerUsername())
                 .ifPresent(entity -> {
                     matchEntity.setMatchOwner(entity);
                     userService.ownMatch(entity, matchEntity);
                 });
-        matchRepository.save(matchEntity);
     }
 }

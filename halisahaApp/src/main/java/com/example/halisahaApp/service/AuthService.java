@@ -1,10 +1,10 @@
 package com.example.halisahaApp.service;
 
+import com.example.halisahaApp.dto.MailDto;
 import com.example.halisahaApp.dto.request.LoginRequest;
 import com.example.halisahaApp.dto.request.RegisterRequest;
 import com.example.halisahaApp.dto.response.LoginResponse;
 import com.example.halisahaApp.mapper.UserMapper;
-import com.example.halisahaApp.dto.MailDto;
 import com.example.halisahaApp.model.User;
 import com.example.halisahaApp.repository.UserRepository;
 import com.example.halisahaApp.util.JWTUtil;
@@ -21,6 +21,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
+    private final JWTUtil jwtUtil;
 
     public void signUp(RegisterRequest request) {
         User entity = UserMapper.INSTANCE.toEntity(request);
@@ -59,7 +60,7 @@ public class AuthService {
         if (!checkPassword(userRecord, request.getPassword())) {
             throw new UnsupportedOperationException("Wrong password");
         }
-        String token = JWTUtil.generateToken(request.getUsername());
+        String token = jwtUtil.generateToken(request.getUsername());
         return LoginResponse.builder()
                 .id(userRecord.getId())
                 .username(userRecord.getUsername())
