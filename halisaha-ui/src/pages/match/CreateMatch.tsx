@@ -68,7 +68,7 @@ const CreateMatch = () => {
         if (playerName.trim()) {
             const newPlayer: PlayerModel = {
                 id: Date.now().toString(),
-                name: playerName.trim(),
+                username: playerName.trim(),
                 team: 'RESERVE'
             };
             setPlayers([...players, newPlayer]);
@@ -287,7 +287,7 @@ const CreateMatch = () => {
                                         justifyContent: 'space-between',
                                         alignItems: 'center'
                                     }}>
-                                        <Typography>{player.name}</Typography>
+                                        <Typography>{player.username}</Typography>
                                         <IconButton size="small" onClick={() => handleRemovePlayer(player.id)}>
                                             <Delete fontSize="small"/>
                                         </IconButton>
@@ -402,7 +402,7 @@ const CreateMatch = () => {
                                                 }}/>
                                             )}
                                             <Typography variant="caption" fontWeight="bold">
-                                                {position.player.name}
+                                                {position.player.username}
                                             </Typography>
                                             <Typography variant="caption" fontSize="10px">
                                                 {position.label}
@@ -440,7 +440,7 @@ const CreateMatch = () => {
                                     <Box display="flex" flexDirection="column" gap={0.5}>
                                         {teamAPlayers.map(player => (
                                             <Box key={player.id} display="flex" alignItems="center" gap={1}>
-                                                <Typography variant="caption">{player.name}</Typography>
+                                                <Typography variant="caption">{player.username}</Typography>
                                                 <IconButton
                                                     size="small"
                                                     onClick={() => toggleGoalkeeper(player.id)}
@@ -470,7 +470,7 @@ const CreateMatch = () => {
                                     <Box display="flex" flexDirection="column" gap={0.5}>
                                         {teamBPlayers.map(player => (
                                             <Box key={player.id} display="flex" alignItems="center" gap={1}>
-                                                <Typography variant="caption">{player.name}</Typography>
+                                                <Typography variant="caption">{player.username}</Typography>
                                                 <IconButton
                                                     size="small"
                                                     onClick={() => toggleGoalkeeper(player.id)}

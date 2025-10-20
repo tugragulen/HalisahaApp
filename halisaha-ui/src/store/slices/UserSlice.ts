@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {LoginResponseModel} from "../../model/LoginModel";
+import {LoginResponseModel} from "../../model/response/LoginResponse";
 
 interface UserState {
     user: LoginResponseModel | undefined;
