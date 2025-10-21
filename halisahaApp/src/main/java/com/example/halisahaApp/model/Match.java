@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,10 @@ public class Match {
     private String name;
 
     @Temporal(TemporalType.DATE)
-    private Date matchDate;
+    private LocalDate date;
+
+    @Temporal(TemporalType.TIME)
+    private LocalTime time;
 
     private String location;
 

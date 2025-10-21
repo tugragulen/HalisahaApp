@@ -22,13 +22,18 @@ import {
 import {ArrowBack, Delete, EmojiEvents, PersonAdd, Sports} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {CreateMatchModel, PlayerModel, PositionModel} from "../../model/MatchModel";
+import {Rest} from "../../api/Rest";
+import {Toast} from "../../util/Toast";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/Store";
 
 const CreateMatch = () => {
     const navigate = useNavigate();
+    const user = useSelector((state: RootState) => state.UserSlice.user);
 
     // Maç bilgileri
     const [matchData, setMatchData] = useState<CreateMatchModel>({
-        title: '',
+        name: '',
         date: '',
         time: '',
         location: '',
@@ -163,6 +168,18 @@ const CreateMatch = () => {
     const teamBPlayers = players.filter(p => p.team === 'B');
     const reservePlayers = players.filter(p => p.team === 'RESERVE');
 
+    const onCreate = () => {
+        if (user) {
+            const request = {
+                ...matchData,
+                ownerUsername: user.username
+            }
+            Rest.post("match", request)
+                .then(() => Toast.success("Match created"))
+                .catch(() => Toast.error("Match cannot create"));
+        }
+    }
+
     return (
         <Box sx={{p: 3}}>
             {/* Header */}
@@ -187,8 +204,8 @@ const CreateMatch = () => {
                             <TextField
                                 label="Maç Adı"
                                 fullWidth
-                                value={matchData.title}
-                                onChange={(e) => setMatchData({...matchData, title: e.target.value})}
+                                value={matchData.name}
+                                onChange={(e) => setMatchData({...matchData, name: e.target.value})}
                             />
                             <TextField
                                 label="Tarih"
@@ -505,6 +522,7 @@ const CreateMatch = () => {
                                 size="large"
                                 color="success"
                                 sx={{px: 6}}
+                                onClick={onCreate}
                             >
                                 Maçı Oluştur
                             </Button>
