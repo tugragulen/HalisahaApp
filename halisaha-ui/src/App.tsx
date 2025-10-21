@@ -5,11 +5,13 @@ import {ToastContainer} from "react-toastify";
 import PrivateRoute from "./component/PrivateRoute";
 import DashboardView from "./pages/layout/DashboardView";
 import CreateMatch from "./pages/match/CreateMatch";
+import Init from "./store/Init";
 
 function App() {
     return (
         <div>
             <ToastContainer position={"bottom-left"} autoClose={5000} theme={"dark"}/>
+            <Init/>
             <Router>
                 <Routes>
                     <Route path={"/auth"} element={
