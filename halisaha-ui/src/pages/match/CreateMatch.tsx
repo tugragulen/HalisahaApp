@@ -180,6 +180,11 @@ const CreateMatch = () => {
         }
     }
 
+    const isCreateDisable = () => {
+        const {name, date, time, location} = matchData;
+        return !name || !date || !time || !location;
+    }
+
     return (
         <Box sx={{p: 3}}>
             {/* Header */}
@@ -523,6 +528,7 @@ const CreateMatch = () => {
                                 color="success"
                                 sx={{px: 6}}
                                 onClick={onCreate}
+                                disabled={isCreateDisable()}
                             >
                                 Maçı Oluştur
                             </Button>
