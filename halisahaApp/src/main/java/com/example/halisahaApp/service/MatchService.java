@@ -33,4 +33,11 @@ public class MatchService {
                 .map(MatchMapper.INSTANCE::toResponse)
                 .toList();
     }
+
+    public MatchResponse findMatchById(Long id) {
+        Match match = matchRepository.findById(id)
+                .orElseThrow(() -> new UnsupportedOperationException("Match not found"));
+        return MatchMapper.INSTANCE.toResponse(match);
+    }
+
 }

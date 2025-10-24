@@ -31,6 +31,13 @@ function App() {
                                </PrivateRoute>
                            }
                     />
+                    <Route path={"/match/:roomId"}
+                           element={
+                               <PrivateRoute>
+                                   <CreateMatch/>
+                               </PrivateRoute>
+                           }
+                    />
                 </Routes>
             </Router>
         </div>

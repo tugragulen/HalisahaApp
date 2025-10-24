@@ -29,4 +29,9 @@ public class MatchController {
         User user = userService.findByUsername(username).orElseThrow();
         return ResponseEntity.ok(matchService.findAll(user.getId()));
     }
+
+    @GetMapping("/{roomId}")
+    public ResponseEntity<?> getMatch(@PathVariable Long roomId) {
+        return ResponseEntity.ok(matchService.findMatchById(roomId));
+    }
 }

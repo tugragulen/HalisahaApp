@@ -18,6 +18,7 @@ public interface MatchMapper {
     Match toEntity(CreateMatchRequest request);
 
     @Mapping(target = "ownerUsername", source = "match.matchOwner.username")
+    @Mapping(target = "format", source = "format.label")
     MatchResponse toResponse(Match match);
 
     default PlayerDto mapPlayer(Participant participant) {

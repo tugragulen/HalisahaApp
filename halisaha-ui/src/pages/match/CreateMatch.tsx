@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Box,
     Button,
@@ -20,7 +20,7 @@ import {
     Typography
 } from "@mui/material";
 import {ArrowBack, Delete, EmojiEvents, PersonAdd, Sports} from "@mui/icons-material";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {CreateMatchModel, PlayerModel, PositionModel} from "../../model/MatchModel";
 import {Rest} from "../../api/Rest";
 import {Toast} from "../../util/Toast";
@@ -30,6 +30,7 @@ import {RootState} from "../../store/Store";
 const CreateMatch = () => {
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.UserSlice.user);
+    const {roomId} = useParams();
 
     // Maç bilgileri
     const [matchData, setMatchData] = useState<CreateMatchModel>({
@@ -67,6 +68,17 @@ const CreateMatch = () => {
         {id: 'b-mid3', x: 60, y: 75, label: 'OC', player: undefined},
         {id: 'b-fwd', x: 55, y: 50, label: 'FW', player: undefined},
     ]);
+
+    useEffect(() => {
+        if (roomId) {
+            Rest.get(`match/${roomId}`)
+                .then(res => setMatchData(res.data))
+                .catch(() => {
+                    Toast.error("Cannot load match detail");
+                    navigate(-1);
+                });
+        }
+    }, [roomId]);
 
     // Oyuncu ekleme
     const handleAddPlayer = () => {

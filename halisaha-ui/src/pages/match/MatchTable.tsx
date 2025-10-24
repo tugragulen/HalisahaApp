@@ -1,9 +1,10 @@
 import React from 'react';
 import {MatchResponse} from "../../model/MatchModel";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip,} from "@mui/material";
-import {Accessibility, SupervisorAccount} from '@mui/icons-material';
+import {Accessibility, NavigateNext as NavigateIcon, SupervisorAccount} from '@mui/icons-material';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/Store";
+import {useNavigate} from "react-router-dom";
 
 type PropType = {
     matchList: MatchResponse[];
@@ -11,6 +12,7 @@ type PropType = {
 
 const MatchTable = ({matchList}: PropType) => {
     const user = useSelector((state: RootState) => state.UserSlice.user);
+    const navigate = useNavigate();
 
     const isOwner = (match: MatchResponse) => {
         return match.ownerUsername === user?.username;
@@ -21,6 +23,10 @@ const MatchTable = ({matchList}: PropType) => {
         return match.admins.includes(user.username);
     }
 
+    const onClickNavigate = (id: number) => {
+        navigate(`/match/${id}`);
+    }
+
     return (
         <TableContainer component={Paper} sx={{maxWidth: 600, margin: "auto", mt: 4}}>
             <Table>
@@ -29,6 +35,7 @@ const MatchTable = ({matchList}: PropType) => {
                         <TableCell><strong>Match Name</strong></TableCell>
                         <TableCell><strong>Location</strong></TableCell>
                         <TableCell><strong>Accesibility</strong></TableCell>
+                        <TableCell/>
                     </TableRow>
                 </TableHead>
 
@@ -44,6 +51,9 @@ const MatchTable = ({matchList}: PropType) => {
                                 <Tooltip title={isAdmin(match) ? "Admin" : "Not Admin"}>
                                     <SupervisorAccount color={isAdmin(match) ? "success" : "disabled"}/>
                                 </Tooltip>
+                            </TableCell>
+                            <TableCell>
+                                <NavigateIcon onClick={() => onClickNavigate(match.id)} cursor={"pointer"}/>
                             </TableCell>
                         </TableRow>
                     ))}

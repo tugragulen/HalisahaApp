@@ -30,7 +30,8 @@ export interface PositionModel {
 export interface MatchResponse {
     id: number;
     name: string;
-    matchDate: string;
+    date: string;
+    time: string;
     location: string;
     format: MatchFormatEnum;
     visibility: string;
