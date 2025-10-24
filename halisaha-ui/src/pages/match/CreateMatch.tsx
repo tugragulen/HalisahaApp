@@ -228,7 +228,9 @@ const CreateMatch = () => {
                                 label="Tarih"
                                 type="date"
                                 fullWidth
-                                InputLabelProps={{shrink: true}}
+                                slotProps={{
+                                    inputLabel: {shrink: true}
+                                }}
                                 value={matchData.date}
                                 onChange={(e) => setMatchData({...matchData, date: e.target.value})}
                             />
@@ -236,7 +238,9 @@ const CreateMatch = () => {
                                 label="Saat"
                                 type="time"
                                 fullWidth
-                                InputLabelProps={{shrink: true}}
+                                slotProps={{
+                                    inputLabel: {shrink: true}
+                                }}
                                 value={matchData.time}
                                 onChange={(e) => setMatchData({...matchData, time: e.target.value})}
                             />
@@ -283,7 +287,7 @@ const CreateMatch = () => {
                                 fullWidth
                                 value={playerName}
                                 onChange={(e) => setPlayerName(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && handleAddPlayer()}
+                                onKeyDown={(e) => e.key === 'Enter' && handleAddPlayer()}
                             />
                             <IconButton color="primary" onClick={handleAddPlayer}>
                                 <PersonAdd/>
