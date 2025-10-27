@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class InvitationController {
     private final InvitationService service;
 
-    @PostMapping("/invite")
+    @PostMapping
     public ResponseEntity<?> inviteMatch(@RequestBody InviteMatchRequest request, Authentication auth) {
         service.inviteMatch(request, auth);
         return ResponseEntity.ok().build();
