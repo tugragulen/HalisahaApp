@@ -4,7 +4,7 @@ import TextFieldView from "../../component/TextFieldView";
 import FormBoxView from "../../component/FormBoxView";
 import {Rest} from "../../api/Rest";
 import {LoginModel} from "../../model/LoginModel";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Toast} from "../../util/Toast";
 import {useDispatch} from "react-redux";
 import {setUser} from "../../store/slices/UserSlice";
@@ -13,7 +13,7 @@ const LoginForm = () => {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
     const navigate = useNavigate();
-
+    const location = useLocation();
     const dispatch = useDispatch();
 
     const onLogin = () => {
@@ -26,7 +26,8 @@ const LoginForm = () => {
                 .then((response) => {
                     localStorage.setItem("token", response.data.token);
                     dispatch(setUser(response.data))
-                    navigate("/")
+                    const redirectPath = location.state?.from?.pathname || "/";
+                    navigate(redirectPath, {replace: true})
                 })
                 .catch(() => Toast.error("Cannot login"));
         }
