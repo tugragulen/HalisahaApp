@@ -5,6 +5,10 @@ import {
     Card,
     CardContent,
     Chip,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     Divider,
     FormControl,
     FormControlLabel,
@@ -20,7 +24,7 @@ import {
     Typography
 } from "@mui/material";
 import {ArrowBack, Delete, EmojiEvents, PersonAdd, Sports} from "@mui/icons-material";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {CreateMatchModel, PlayerModel, PositionModel} from "../../model/MatchModel";
 import {Rest} from "../../api/Rest";
 import {Toast} from "../../util/Toast";
@@ -32,6 +36,15 @@ const CreateMatch = () => {
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.UserSlice.user);
     const {roomId} = useParams();
+    const [searchParams] = useSearchParams();
+    const invitationCode = searchParams.get("invitation");
+    const [invitePopupOpen, setInvitePopupOpen] = useState(false);
+
+    useEffect(() => {
+        if (invitationCode) {
+            setInvitePopupOpen(true);
+        }
+    }, [invitationCode]);
 
     // Maç bilgileri
     const [matchData, setMatchData] = useState<CreateMatchModel>({
@@ -201,6 +214,31 @@ const CreateMatch = () => {
     const getTitle = () => {
         return roomId ? "Maç Bilgileri" : "Yeni Maç Oluştur";
     }
+
+    const respondInvitation = (response: boolean) => {
+        if (invitationCode) {
+            Rest.post("invite/respond", {id: invitationCode, response})
+                .then(() => {
+                    if (response) {
+                        Toast.success("Davet Kabul Edildi.")
+                        setInvitePopupOpen(false);
+                        removeInvitationParam();
+                    } else {
+                        Toast.info("Davet Reddedildi");
+                        navigate("/", {replace: true});
+                    }
+                })
+                .catch(() => {
+                    Toast.warning("İşlem gerçekleştirilemedi");
+                    navigate("/", {replace: true});
+                });
+        }
+    }
+
+    const removeInvitationParam = () => {
+        searchParams.delete("invitation");
+        navigate({pathname: `/match/${roomId}`, search: searchParams.toString()}, {replace: true});
+    };
 
     return (
         <Box sx={{p: 3}}>
@@ -563,6 +601,20 @@ const CreateMatch = () => {
                     </Paper>
                 </Box>
             </Box>
+            {invitationCode && (
+                <Dialog open={invitePopupOpen}>
+                    <DialogTitle>Maç Daveti</DialogTitle>
+                    <DialogContent>
+                        <Typography>
+                            Bir maça davet edildiniz! Katılmak istiyor musunuz?
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="error" onClick={() => respondInvitation(false)}>Reddet</Button>
+                        <Button color="success" onClick={() => respondInvitation(true)}>Kabul Et</Button>
+                    </DialogActions>
+                </Dialog>
+            )}
         </Box>
     );
 };

@@ -2,9 +2,11 @@ package com.example.halisahaApp.service;
 
 import com.example.halisahaApp.dto.MailDto;
 import com.example.halisahaApp.dto.request.InviteMatchRequest;
+import com.example.halisahaApp.dto.request.RespondInvitationRequest;
 import com.example.halisahaApp.model.Invitation;
 import com.example.halisahaApp.model.Match;
 import com.example.halisahaApp.model.User;
+import com.example.halisahaApp.model.enums.InvitationStatus;
 import com.example.halisahaApp.repository.InvitationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,19 +31,33 @@ public class InvitationService {
                 () -> new UnsupportedOperationException("User not found")
         );
 
-        String matchLink = "http://localhost:3000/match/" + match.getId();
-
-        mailService.sendMail(new MailDto(
-                request.invitedMail(),
-                "Halısaha Davet",
-                "%s size bir halısaha daveti gönderdi. Linke tıklayarak katılabilirsiniz. %s"
-                        .formatted(username, matchLink)
-        ));
-
         Invitation invitation = new Invitation();
         invitation.setMatch(match);
         invitation.setInvitedBy(user);
         invitation.setInvitedMail(request.invitedMail());
+        repository.save(invitation);
+
+        String matchLink = "http://localhost:3000/match/" + match.getId() + "?invitation=" + invitation.getId();
+
+        mailService.sendMail(new MailDto
+                (
+                        request.invitedMail(),
+                        "Halısaha Davet",
+                        "%s size bir halısaha daveti gönderdi. Linke tıklayarak katılabilirsiniz. %s"
+                                .formatted(username, matchLink)
+                ));
+    }
+
+    @Transactional
+    public void respondInvitation(RespondInvitationRequest request) {
+        Invitation invitation = repository.findById(request.id())
+                .orElseThrow(() -> new UnsupportedOperationException("Invitation not found"));
+        if (invitation.getStatus().equals(InvitationStatus.PENDING)) {
+            invitation.setStatus(request.response() ? InvitationStatus.ACCEPTED : InvitationStatus.DECLINED);
+        } else {
+            throw new UnsupportedOperationException("Invitation not appropriate for respond, status " + invitation.getStatus());
+        }
+
         repository.save(invitation);
     }
 }
