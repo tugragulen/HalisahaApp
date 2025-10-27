@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,4 +41,7 @@ public class MatchService {
         return MatchMapper.INSTANCE.toResponse(match);
     }
 
+    public Optional<Match> findById(Long id) {
+        return matchRepository.findById(id);
+    }
 }

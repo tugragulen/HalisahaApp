@@ -21,4 +21,6 @@ public class Invitation extends BaseEntity {
     @JoinColumn(name = "invited_by")
     private User invitedBy;
 
+    @Column(nullable = false)
+    private String invitedMail;
 }
