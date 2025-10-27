@@ -26,6 +26,7 @@ import {Rest} from "../../api/Rest";
 import {Toast} from "../../util/Toast";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/Store";
+import Invite from "./Invite";
 
 const CreateMatch = () => {
     const navigate = useNavigate();
@@ -197,6 +198,10 @@ const CreateMatch = () => {
         return !name || !date || !time || !location;
     }
 
+    const getTitle = () => {
+        return roomId ? "Maç Bilgileri" : "Yeni Maç Oluştur";
+    }
+
     return (
         <Box sx={{p: 3}}>
             {/* Header */}
@@ -205,7 +210,7 @@ const CreateMatch = () => {
                     <ArrowBack/>
                 </IconButton>
                 <Typography variant="h4">
-                    Yeni Maç Oluştur
+                    {getTitle()}
                 </Typography>
             </Box>
 
@@ -344,9 +349,15 @@ const CreateMatch = () => {
                 {/* Sağ Panel - Saha Görünümü */}
                 <Box flex="1">
                     <Paper elevation={3} sx={{p: 3}}>
-                        <Typography variant="h6" gutterBottom>
-                            Saha Düzeni (7v7)
-                        </Typography>
+                        <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mb={2}>
+                            <Typography variant="h6" gutterBottom>
+                                Saha Düzeni (7v7)
+                            </Typography>
+                            {roomId &&
+                                <Invite roomId={roomId}/>
+                            }
+                        </Box>
+
 
                         {/* Saha */}
                         <Box
@@ -546,7 +557,7 @@ const CreateMatch = () => {
                                 onClick={onCreate}
                                 disabled={isCreateDisable()}
                             >
-                                Maçı Oluştur
+                                {roomId ? "Değişiklikleri Kaydet" : "Maçı Oluştur"}
                             </Button>
                         </Box>
                     </Paper>
