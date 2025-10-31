@@ -6,6 +6,7 @@ import PrivateRoute from "./component/PrivateRoute";
 import DashboardView from "./pages/layout/DashboardView";
 import CreateMatch from "./pages/match/CreateMatch";
 import Init from "./store/Init";
+import {TeamBuilder} from "./pages/match/TeamBuilder";
 
 function App() {
     return (
@@ -35,6 +36,13 @@ function App() {
                            element={
                                <PrivateRoute>
                                    <CreateMatch/>
+                               </PrivateRoute>
+                           }
+                    />
+                    <Route path={"/match/build"}
+                           element={
+                               <PrivateRoute>
+                                   <TeamBuilder/>
                                </PrivateRoute>
                            }
                     />
