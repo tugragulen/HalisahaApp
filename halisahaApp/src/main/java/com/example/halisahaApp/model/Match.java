@@ -14,11 +14,7 @@ import java.util.List;
 @Table(name = "t_matches")
 @Getter
 @Setter
-public class Match {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Match extends BaseEntity {
     private String name;
 
     @Temporal(TemporalType.DATE)
@@ -37,6 +33,10 @@ public class Match {
 
     @OneToMany(mappedBy = "match")
     private List<Participant> players;
+
+    @OneToMany
+    @JoinColumn(name = "match_id")
+    private List<FieldPosition> positions;
 
     @OneToMany(mappedBy = "match")
     private List<MatchAdmin> admins;

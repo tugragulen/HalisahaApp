@@ -17,6 +17,10 @@ public class Participant extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "field_position_id")
+    private FieldPosition position;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private JoinStatus joinStatus = JoinStatus.CONFIRMED;
