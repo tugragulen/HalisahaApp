@@ -34,8 +34,7 @@ public class Match extends BaseEntity {
     @OneToMany(mappedBy = "match")
     private List<Participant> players;
 
-    @OneToMany
-    @JoinColumn(name = "match_id")
+    @OneToMany(mappedBy = "match")
     private List<FieldPosition> positions;
 
     @OneToMany(mappedBy = "match")
