@@ -19,7 +19,7 @@ public class FieldPosition extends BaseEntity {
     @OneToOne(mappedBy = "position")
     private Participant participant;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "match_id")
     private Match match;
 

@@ -44,7 +44,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<MatchAdmin> adminMatches = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "matchOwner")
     private List<Match> owneredMatches = new ArrayList<>();
 
 }
