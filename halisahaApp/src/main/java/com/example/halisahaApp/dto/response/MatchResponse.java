@@ -1,6 +1,7 @@
 package com.example.halisahaApp.dto.response;
 
 import com.example.halisahaApp.dto.PlayerDto;
+import com.example.halisahaApp.dto.PositionDto;
 import com.example.halisahaApp.model.enums.MatchVisibility;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,4 +23,5 @@ public class MatchResponse {
     private List<PlayerDto> players;
     private List<String> admins;
     private String ownerUsername;
+    private List<PositionDto> positions;
 }

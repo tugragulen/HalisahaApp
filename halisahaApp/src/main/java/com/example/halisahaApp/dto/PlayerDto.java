@@ -1,5 +1,6 @@
 package com.example.halisahaApp.dto;
 
+import com.example.halisahaApp.model.enums.TeamSide;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,4 +11,5 @@ public class PlayerDto {
     private String username;
     private double xPosition;
     private double yPosition;
+    private TeamSide team;
 }

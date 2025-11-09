@@ -9,5 +9,5 @@ public class PositionDto {
     private Long id;
     private double x;
     private double y;
-    private Long userId;
+    private PlayerDto player;
 }

@@ -1,5 +1,6 @@
 package com.example.halisahaApp.service;
 
+import com.example.halisahaApp.dto.PlayerDto;
 import com.example.halisahaApp.dto.PositionDto;
 import com.example.halisahaApp.dto.request.CreateMatchRequest;
 import com.example.halisahaApp.dto.response.MatchResponse;
@@ -35,14 +36,14 @@ public class MatchService {
     public List<MatchResponse> findAll(Long userId) {
         return matchRepository.findAllByUser(userId)
                 .stream()
-                .map(MatchMapper.INSTANCE::toResponse)
+                .map(match -> MatchMapper.INSTANCE.toResponse(match, userService))
                 .toList();
     }
 
     public MatchResponse findMatchById(Long id) {
         Match match = matchRepository.findById(id)
                 .orElseThrow(() -> new UnsupportedOperationException("Match not found"));
-        return MatchMapper.INSTANCE.toResponse(match);
+        return MatchMapper.INSTANCE.toResponse(match, userService);
     }
 
     public Optional<Match> findById(Long id) {
@@ -54,7 +55,6 @@ public class MatchService {
                 () -> new RuntimeException("User not found")
         );
         match.setMatchOwner(owner);
-        owner.getOwneredMatches().add(match);
     }
 
     private void assignPositions(List<PositionDto> positions, Match match) {
@@ -62,14 +62,17 @@ public class MatchService {
         for (PositionDto position : positions) {
             FieldPosition entity = MatchMapper.INSTANCE.toPosition(position);
             entity.setMatch(match);
-            participantService.findByUserIdAndMatchId(position.getUserId(), match.getId())
-                    .ifPresent(participant -> {
-                        entity.setParticipant(participant);
-                        participant.setPosition(entity);
-                    });
+            PlayerDto player = position.getPlayer();
+            if (player != null) {
+                participantService.findByUserIdAndMatchId(player.getId(), match.getId())
+                        .ifPresent(participant -> {
+//                        entity.setParticipant(participant);
+                            participant.setPosition(entity);
+                        });
+            }
             positionList.add(entity);
         }
         fieldPositionService.saveAll(positionList);
-        match.setPositions(positionList);
+//        match.setPositions(positionList);
     }
 }

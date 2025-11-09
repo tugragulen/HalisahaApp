@@ -65,28 +65,31 @@ const CreateMatch = () => {
     // 7v7 saha pozisyonları (örnek dizilim)
     const [fieldPositions, setFieldPositions] = useState<PositionModel[]>([
         // A Takımı pozisyonları (sol taraf)
-        {id: 'a-gk', x: 10, y: 50, label: 'KL', player: undefined},
-        {id: 'a-def1', x: 25, y: 30, label: 'DF', player: undefined},
-        {id: 'a-def2', x: 25, y: 70, label: 'DF', player: undefined},
-        {id: 'a-mid1', x: 40, y: 25, label: 'OC', player: undefined},
-        {id: 'a-mid2', x: 35, y: 50, label: 'OC', player: undefined},
-        {id: 'a-mid3', x: 40, y: 75, label: 'OC', player: undefined},
-        {id: 'a-fwd', x: 45, y: 50, label: 'FW', player: undefined},
+        {id: 1, x: 10, y: 50, label: 'KL', playerId: undefined},
+        {id: 2, x: 25, y: 30, label: 'DF', playerId: undefined},
+        {id: 3, x: 25, y: 70, label: 'DF', playerId: undefined},
+        {id: 4, x: 40, y: 25, label: 'OC', playerId: undefined},
+        {id: 5, x: 35, y: 50, label: 'OC', playerId: undefined},
+        {id: 6, x: 40, y: 75, label: 'OC', playerId: undefined},
+        {id: 7, x: 45, y: 50, label: 'FW', playerId: undefined},
 
         // B Takımı pozisyonları (sağ taraf)
-        {id: 'b-gk', x: 90, y: 50, label: 'KL', player: undefined},
-        {id: 'b-def1', x: 75, y: 30, label: 'DF', player: undefined},
-        {id: 'b-def2', x: 75, y: 70, label: 'DF', player: undefined},
-        {id: 'b-mid1', x: 60, y: 25, label: 'OC', player: undefined},
-        {id: 'b-mid2', x: 65, y: 50, label: 'OC', player: undefined},
-        {id: 'b-mid3', x: 60, y: 75, label: 'OC', player: undefined},
-        {id: 'b-fwd', x: 55, y: 50, label: 'FW', player: undefined},
+        {id: 8, x: 90, y: 50, label: 'KL', playerId: undefined},
+        {id: 9, x: 75, y: 30, label: 'DF', playerId: undefined},
+        {id: 10, x: 75, y: 70, label: 'DF', playerId: undefined},
+        {id: 11, x: 60, y: 25, label: 'OC', playerId: undefined},
+        {id: 12, x: 65, y: 50, label: 'OC', playerId: undefined},
+        {id: 13, x: 60, y: 75, label: 'OC', playerId: undefined},
+        {id: 14, x: 55, y: 50, label: 'FW', playerId: undefined},
     ]);
 
     useEffect(() => {
         if (roomId) {
             Rest.get(`match/${roomId}`)
-                .then(res => setMatchData(res.data))
+                .then(res => {
+                    setMatchData(res.data);
+                    console.log("res.data", res.data);
+                })
                 .catch(() => {
                     Toast.error("Cannot load match detail");
                     navigate(-1);
@@ -98,7 +101,7 @@ const CreateMatch = () => {
     const handleAddPlayer = () => {
         if (playerName.trim()) {
             const newPlayer: PlayerModel = {
-                id: Date.now().toString(),
+                id: Date.now(),
                 username: playerName.trim(),
                 team: 'RESERVE'
             };
@@ -108,36 +111,36 @@ const CreateMatch = () => {
     };
 
     // Oyuncu silme
-    const handleRemovePlayer = (playerId: string) => {
+    const handleRemovePlayer = (playerId: number) => {
         setPlayers(players.filter(p => p.id !== playerId));
         // Sahadan da kaldır
         setFieldPositions(fieldPositions.map(pos =>
-            pos.player?.id === playerId ? {...pos, player: undefined} : pos
+            pos.playerId === playerId ? {...pos, player: undefined} : pos
         ));
     };
 
     // Kaleci işaretleme
-    const toggleGoalkeeper = (playerId: string) => {
+    const toggleGoalkeeper = (playerId: number) => {
         setPlayers(players.map(p =>
             p.id === playerId ? {...p, isGoalkeeper: !p.isGoalkeeper} : p
         ));
-        setFieldPositions(fieldPositions.map(pos =>
-            pos.player?.id === playerId
-                ? {...pos, player: {...pos.player, isGoalkeeper: !pos.player.isGoalkeeper}}
-                : pos
-        ));
+        // setFieldPositions(fieldPositions.map(pos =>
+        //     pos.playerId === playerId
+        //         ? {...pos, player: {...pos.player, isGoalkeeper: !pos.player.isGoalkeeper}}
+        //         : pos
+        // ));
     };
 
     // Kaptan işaretleme
-    const toggleCaptain = (playerId: string) => {
+    const toggleCaptain = (playerId: number) => {
         setPlayers(players.map(p =>
             p.id === playerId ? {...p, isCaptain: !p.isCaptain} : p
         ));
-        setFieldPositions(fieldPositions.map(pos =>
-            pos.player?.id === playerId
-                ? {...pos, player: {...pos.player, isCaptain: !pos.player.isCaptain}}
-                : pos
-        ));
+        // setFieldPositions(fieldPositions.map(pos =>
+        //     pos.player?.id === playerId
+        //         ? {...pos, player: {...pos.player, isCaptain: !pos.player.isCaptain}}
+        //         : pos
+        // ));
     };
 
     // Drag & Drop handlers
@@ -149,27 +152,27 @@ const CreateMatch = () => {
         e.preventDefault();
     };
 
-    const handleDropOnPosition = (positionId: string) => {
+    const handleDropOnPosition = (positionId: number) => {
         if (draggedPlayer) {
             const position = fieldPositions.find(p => p.id === positionId);
             if (position) {
                 // Oyuncuyu pozisyona yerleştir
                 setFieldPositions(fieldPositions.map(pos => {
                     if (pos.id === positionId) {
-                        return {...pos, player: draggedPlayer};
+                        return {...pos, playerId: draggedPlayer.id};
                     }
                     // Aynı oyuncuyu başka pozisyondan kaldır
-                    if (pos.player?.id === draggedPlayer.id) {
-                        return {...pos, player: undefined};
+                    if (pos.playerId === draggedPlayer.id) {
+                        return {...pos, playerId: undefined};
                     }
                     return pos;
                 }));
 
                 // Oyuncuyu takıma ata
-                const team = positionId.startsWith('a-') ? 'A' : 'B';
-                setPlayers(players.map(p =>
-                    p.id === draggedPlayer.id ? {...p, team: team as any} : p
-                ));
+                // const team = positionId.startsWith('a-') ? 'A' : 'B';
+                // setPlayers(players.map(p =>
+                //     p.id === draggedPlayer.id ? {...p, team: team as any} : p
+                // ));
             }
             setDraggedPlayer(null);
         }
@@ -179,7 +182,7 @@ const CreateMatch = () => {
         if (draggedPlayer) {
             // Sahadan kaldır
             setFieldPositions(fieldPositions.map(pos =>
-                pos.player?.id === draggedPlayer.id ? {...pos, player: undefined} : pos
+                pos.playerId === draggedPlayer.id ? {...pos, playerId: undefined} : pos
             ));
             // Yedeklere al
             setPlayers(players.map(p =>
@@ -198,7 +201,8 @@ const CreateMatch = () => {
         if (user) {
             const request = {
                 ...matchData,
-                ownerUsername: user.username
+                ownerUsername: user.username,
+                positions: fieldPositions
             }
             Rest.post("match", request)
                 .then(() => Toast.success("Match created"))
@@ -451,50 +455,51 @@ const CreateMatch = () => {
                                         justifyContent: 'center'
                                     }}
                                 >
-                                    {position.player ? (
-                                        <Card
-                                            draggable
-                                            onDragStart={() => handleDragStart(position.player!)}
-                                            sx={{
-                                                width: '100%',
-                                                height: '100%',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                cursor: 'grab',
-                                                bgcolor: position.id.startsWith('a-') ? '#1976d2' : '#d32f2f',
-                                                color: 'white',
-                                                '&:active': {cursor: 'grabbing'},
-                                                position: 'relative',
-                                                border: position.player.isCaptain ? '3px solid gold' : 'none'
-                                            }}
-                                        >
-                                            {position.player.isCaptain && (
-                                                <EmojiEvents sx={{
-                                                    position: 'absolute',
-                                                    top: 2,
-                                                    left: 2,
-                                                    fontSize: '14px',
-                                                    color: 'gold'
-                                                }}/>
-                                            )}
-                                            {position.player.isGoalkeeper && (
-                                                <Sports sx={{
-                                                    position: 'absolute',
-                                                    top: 2,
-                                                    right: 2,
-                                                    fontSize: '14px',
-                                                    color: 'yellow'
-                                                }}/>
-                                            )}
-                                            <Typography variant="caption" fontWeight="bold">
-                                                {position.player.username}
-                                            </Typography>
-                                            <Typography variant="caption" fontSize="10px">
-                                                {position.label}
-                                            </Typography>
-                                        </Card>
+                                    {position.playerId ? (
+                                        <></>
+                                        // <Card
+                                        //     draggable
+                                        //     onDragStart={() => handleDragStart(position.player!)}
+                                        //     sx={{
+                                        //         width: '100%',
+                                        //         height: '100%',
+                                        //         display: 'flex',
+                                        //         flexDirection: 'column',
+                                        //         alignItems: 'center',
+                                        //         justifyContent: 'center',
+                                        //         cursor: 'grab',
+                                        //         bgcolor: position.id.startsWith('a-') ? '#1976d2' : '#d32f2f',
+                                        //         color: 'white',
+                                        //         '&:active': {cursor: 'grabbing'},
+                                        //         position: 'relative',
+                                        //         border: position.player.isCaptain ? '3px solid gold' : 'none'
+                                        //     }}
+                                        // >
+                                        //     {position.player.isCaptain && (
+                                        //         <EmojiEvents sx={{
+                                        //             position: 'absolute',
+                                        //             top: 2,
+                                        //             left: 2,
+                                        //             fontSize: '14px',
+                                        //             color: 'gold'
+                                        //         }}/>
+                                        //     )}
+                                        //     {position.player.isGoalkeeper && (
+                                        //         <Sports sx={{
+                                        //             position: 'absolute',
+                                        //             top: 2,
+                                        //             right: 2,
+                                        //             fontSize: '14px',
+                                        //             color: 'yellow'
+                                        //         }}/>
+                                        //     )}
+                                        //     <Typography variant="caption" fontWeight="bold">
+                                        //         {position.player.username}
+                                        //     </Typography>
+                                        //     <Typography variant="caption" fontSize="10px">
+                                        //         {position.label}
+                                        //     </Typography>
+                                        // </Card>
                                     ) : (
                                         <Box sx={{
                                             width: '100%',

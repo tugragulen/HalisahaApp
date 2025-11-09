@@ -9,7 +9,7 @@ export interface CreateMatchModel {
 }
 
 export interface PlayerModel {
-    id: string;
+    id: number;
     username: string;
     position?: string; // Sahada atanan pozisyon
     team?: 'A' | 'B' | 'RESERVE'; // A Takımı, B Takımı, Yedek
@@ -20,11 +20,11 @@ export interface PlayerModel {
 }
 
 export interface PositionModel {
-    id: string;
+    id: number;
     x: number;
     y: number;
     label: string;
-    player?: PlayerModel;
+    playerId?: number;
 }
 
 export interface MatchResponse {
@@ -38,6 +38,7 @@ export interface MatchResponse {
     players: PlayerModel[];
     admins: string[];
     ownerUsername: string;
+    positions: PositionModel[];
 }
 
 export enum MatchFormatEnum {
