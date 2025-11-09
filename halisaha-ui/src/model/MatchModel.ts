@@ -23,7 +23,7 @@ export interface PositionModel {
     id: number;
     x: number;
     y: number;
-    label: string;
+    // label: string;
     playerId?: number;
 }
 

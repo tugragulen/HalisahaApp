@@ -65,22 +65,22 @@ const CreateMatch = () => {
     // 7v7 saha pozisyonları (örnek dizilim)
     const [fieldPositions, setFieldPositions] = useState<PositionModel[]>([
         // A Takımı pozisyonları (sol taraf)
-        {id: 1, x: 10, y: 50, label: 'KL', playerId: undefined},
-        {id: 2, x: 25, y: 30, label: 'DF', playerId: undefined},
-        {id: 3, x: 25, y: 70, label: 'DF', playerId: undefined},
-        {id: 4, x: 40, y: 25, label: 'OC', playerId: undefined},
-        {id: 5, x: 35, y: 50, label: 'OC', playerId: undefined},
-        {id: 6, x: 40, y: 75, label: 'OC', playerId: undefined},
-        {id: 7, x: 45, y: 50, label: 'FW', playerId: undefined},
+        {id: 1, x: 50, y: 50, playerId: undefined},
+        {id: 2, x: 25, y: 30, playerId: undefined},
+        {id: 3, x: 25, y: 70, playerId: undefined},
+        {id: 4, x: 40, y: 25, playerId: undefined},
+        {id: 5, x: 35, y: 50, playerId: undefined},
+        {id: 6, x: 40, y: 75, playerId: undefined},
+        {id: 7, x: 45, y: 50, playerId: undefined},
 
         // B Takımı pozisyonları (sağ taraf)
-        {id: 8, x: 90, y: 50, label: 'KL', playerId: undefined},
-        {id: 9, x: 75, y: 30, label: 'DF', playerId: undefined},
-        {id: 10, x: 75, y: 70, label: 'DF', playerId: undefined},
-        {id: 11, x: 60, y: 25, label: 'OC', playerId: undefined},
-        {id: 12, x: 65, y: 50, label: 'OC', playerId: undefined},
-        {id: 13, x: 60, y: 75, label: 'OC', playerId: undefined},
-        {id: 14, x: 55, y: 50, label: 'FW', playerId: undefined},
+        {id: 8, x: 90, y: 50, playerId: undefined},
+        {id: 9, x: 75, y: 30, playerId: undefined},
+        {id: 10, x: 75, y: 70, playerId: undefined},
+        {id: 11, x: 60, y: 25, playerId: undefined},
+        {id: 12, x: 65, y: 50, playerId: undefined},
+        {id: 13, x: 60, y: 75, playerId: undefined},
+        {id: 14, x: 55, y: 50, playerId: undefined},
     ]);
 
     useEffect(() => {
@@ -88,6 +88,7 @@ const CreateMatch = () => {
             Rest.get(`match/${roomId}`)
                 .then(res => {
                     setMatchData(res.data);
+                    setFieldPositions(res.data.positions);
                     console.log("res.data", res.data);
                 })
                 .catch(() => {
@@ -512,7 +513,7 @@ const CreateMatch = () => {
                                             bgcolor: 'rgba(255,255,255,0.1)'
                                         }}>
                                             <Typography variant="caption" color="white">
-                                                {position.label}
+                                                BOŞ
                                             </Typography>
                                         </Box>
                                     )}
